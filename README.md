@@ -54,6 +54,7 @@ def get_session(name, credit):
     "success_url": "<where the the api will post data if the request is successful>",
     "fail_url": "<where the the api will post data if the request is failed>",
     "cancel_url": "<where the the api will post data if the request is canceled>",
+    "ipn_url": "where will transaction notifications go",
     "cus_name": "<customer name>",
     "cus_email": "cust@yahoo.com",
     "cus_add1": "Dhaka",
@@ -142,10 +143,10 @@ go to this page [manage marchent account](https://sandbox.sslcommerz.com/manage/
 in your marchent panel go to **My Stores** section. You'll see list of your stores. select **IPN Settings**.
 
 you'll see a page like this.
-![marchent page](images/8.png)
+![marchent page](./images/inp.png)
 
 tick the Enable HTTP Listener option and enter the address of your backend.
-For this project I entered `http://http://ssltest.com:5000`. click the save button, and we now we'll receive a response in our fail, cancel or success url after every transaction.
+For this project I entered `http://http://ssltest.com:5000/ipn`. click the save button, and we now we'll receive a response in our fail, cancel or success url after every transaction, and we'll get how are our transaction is being processed in the ipn url.
 
 we set our listerner urls to this:
 ```python
@@ -153,12 +154,12 @@ we set our listerner urls to this:
     "fail_url": "http://ssltest.com:5000/fail",
     "cancel_url": "http://ssltest.com:5000/cancel",
 ```
-now time to handle this urls. I'll discuss only success_url, ohter urls work the same way.
+now time to handle this urls. I'll discuss only success_url, other urls work the same way.
 
 ```python
 @app.route('/success',methods = ['POST'])
 def success():
-    response = request.form
+    response = request.form.to_dict()
     # process your data store it or do anything you prefer
 
     return redirect('http://localhost:3000/success');
@@ -166,6 +167,7 @@ def success():
 
 the success url recieves form data from SSLCOMMERZ as we set in the marchent account.
 now notice we are using **request.form** because SSLCOMMERZ is sending form data.
+also we had to call the **to_dict()** method as request.form returns an immutable dictionary which is difficutl to handle.
 **request.json() won't work in this case**.
 
 after getting the response you can filter and store data as you want. 

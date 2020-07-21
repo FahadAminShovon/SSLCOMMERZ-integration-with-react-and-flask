@@ -16,6 +16,7 @@ def get_session(name, credit):
     "success_url": "http://ssltest.com:5000/success",
     "fail_url": "http://ssltest.com:5000/fail",
     "cancel_url": "http://ssltest.com:5000/cancel",
+    "ipn_url": "http://ssltest.com:5000/ipn",
     "cus_name": name,
     "cus_email": "cust@yahoo.com",
     "cus_add1": "Dhaka",
@@ -60,20 +61,20 @@ def get_ssl_session():
 
 @app.route('/success',methods = ['POST'])
 def success():
-    response = request.form
+    response = request.form.to_dict()
     # process your data store it or do anything you prefer
 
     return redirect('http://localhost:3000/success');
 
 @app.route('/fail',methods = ['POST'])
 def fail():
-    response = request.form
+    response = request.form.to_dict()
 
     return redirect('http://localhost:3000/fail');
 
 @app.route('/cancel',methods = ['POST'])
 def cancel():
-    response = request.form
+    response = request.request.form.to_dict()
 
     return redirect('http://localhost:3000/cancel');
 

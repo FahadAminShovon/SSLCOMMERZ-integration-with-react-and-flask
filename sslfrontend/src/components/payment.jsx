@@ -12,10 +12,12 @@ const Payment = () => {
     const handleSubmit = (e) => {
       e.preventDefault()
       const data = {
-        name, credit
+        "name":name,
+         "total_amount": credit
       }
-      Axios.post('/get-ssl-session', data)
+      Axios.post('/api/v1/billing/initiate-payment', data)
       .then(resp=>{
+        // console.log(resp);
         window.location.replace(resp.data.gatewayPageUrl);
         // window.location.replace(resp.gatewayPageUrl);
       })

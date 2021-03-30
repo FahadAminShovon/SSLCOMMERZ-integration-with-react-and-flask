@@ -39,7 +39,7 @@ pbr==3.1.1
 psycopg2==2.7.4
 pycodestyle==2.5.0
 pycrypto==2.6.1
-Pygments==2.4.2
+Pygments==2.7.4
 pygobject==3.26.1
 pylint==1.9.5
 pyOpenSSL==17.5.0
